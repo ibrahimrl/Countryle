@@ -39,38 +39,38 @@ class View(Canvas):
         self.image_placer()
 
         self.create_rectangle(390, 560, 660, 620, width=1, outline='Black')
-        self.image_submit = image_resizer('img/submit.png')
+        self.image_submit = image_resizer('Img/submit.png')
         self.button_submit = Button(self, image=self.image_submit, command=country_name, activebackground='red', bd=0)
         self.button_submit.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(700, 590, window=self.button_submit)
 
     def image_placer(self):
-        self.image_map = PhotoImage(file='img/map.png')
+        self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
 
-        self.image_hem = image_resizer('img/hemisphere.png')
+        self.image_hem = image_resizer('Img/hemisphere.png')
         self.create_image(335, 110, image=self.image_hem, anchor=W)
         self.text(360, 145, 'Hemisphere', 10, 'Black', justify=CENTER)
 
-        self.image_con = image_resizer('img/continent.png')
+        self.image_con = image_resizer('Img/continent.png')
         self.create_image(417, 110, image=self.image_con, anchor=W)
         self.text(442, 145, 'Continent', 10, 'Black', justify=CENTER)
 
-        self.image_temp = image_resizer('img/avg-temperature.png')
+        self.image_temp = image_resizer('Img/avg-temperature.png')
         self.create_image(525, 110, image=self.image_temp, anchor=CENTER)
         self.text(525, 145, 'Avg.\nTemperature', 10, 'Black', justify=CENTER)
 
-        self.image_pop = image_resizer('img/population.png')
+        self.image_pop = image_resizer('Img/population.png')
         self.create_image(582, 110, image=self.image_pop, anchor=W)
         self.text(607, 145, 'Population', 10, 'Black', justify=CENTER)
 
-        self.image_cord = image_resizer('img/direction.png')
+        self.image_cord = image_resizer('Img/direction.png')
         self.create_image(715, 110, image=self.image_cord, anchor=E)
         self.text(690, 145, 'Coordinates', 10, 'Black', justify=CENTER)
 
-        self.image_lower = image_resizer('img/lower.png', 10, 10)
-        self.image_higher = image_resizer('img/higher.png', 10, 10)
-        self.image_found = image_resizer('img/location.png', 30, 30)
+        self.image_lower = image_resizer('Img/lower.png', 10, 10)
+        self.image_higher = image_resizer('Img/higher.png', 10, 10)
+        self.image_found = image_resizer('Img/location.png', 30, 30)
 
     def game_update(self, game_status):
         global Current_Point

@@ -21,10 +21,10 @@ class Game:
         self.Attempts: int = 6
         self.GuessedCountries: set[str] = set()
         self.DataGuessedCountries: list[tuple[Any]] = []
-        with open('Information.json') as file:
+        with open('Data/Information.json') as file:
             self._data: dict[str, Any] = load(file)
         self.Target: Country = self._random_country()
-        with open('Results.json') as file:
+        with open('Data/Results.json') as file:
             self.FileLoad: dict[str, Any] = load(file)
         self.FileLoad['NumberOfGames'] += 1
 
@@ -102,13 +102,13 @@ class Game:
         self.DataGuessedCountries.append(data)
 
     def end_game(self) -> str:
-        with open('Results.json', 'w') as file:
+        with open('Data/Results.json', 'w') as file:
             dump(self.FileLoad, file)
         return self.Target.Name
 
 class ResultsTable:
     def __init__(self):
-        with open('Results.json') as file:
+        with open('Data/Results.json') as file:
             self.FileLoad = load(file)
 
     def discovered(self) -> str:
