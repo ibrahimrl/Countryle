@@ -10,7 +10,7 @@ class Country:
         self.continent: str = info['ContinentName']
         self.population: int = info['Population']
         self.temperature: int = info['Temperature']
-        self.location: tuple = info['CapitalLatitude'], info['CapitalLongitude']
+        self.location: tuple[Any, Any] = info['CapitalLatitude'], info['CapitalLongitude']
 
     @property
     def hemisphere(self) -> str:
@@ -53,16 +53,16 @@ class Game:
     def already_guessed(self, name: str) -> bool:
         return name in self.guessed_countries
 
-    def _name(self, country: Country) -> tuple:
+    def _name(self, country: Country) -> tuple[str, str]:
         return str(TOTAL_ATTEMPTS - self.attempts), country.name
 
-    def _hemisphere_check(self, first: Country, second: Country) -> tuple:
+    def _hemisphere_check(self, first: Country, second: Country) -> tuple[str, bool]:
         return first.hemisphere, first.hemisphere == second.hemisphere
 
-    def _continent_check(self, first: Country, second: Country) -> tuple:
+    def _continent_check(self, first: Country, second: Country) -> tuple[str, bool]:
         return first.continent.upper(), first.continent == second.continent
 
-    def _population_check(self, first: Country, second: Country) -> tuple:
+    def _population_check(self, first: Country, second: Country) -> tuple[str, tuple[str, int]]:
         difference = first.population - second.population
         if -500_000 < difference < 500_000:
             return str(first.population), ('True', difference)
@@ -70,7 +70,7 @@ class Game:
             return str(first.population), ('Almost', difference)
         return formatting_population(first.population), ('False', difference)
 
-    def _temperature_check(self, first: Country, second: Country) -> tuple:
+    def _temperature_check(self, first: Country, second: Country) -> tuple[str, tuple[str, int]]:
         difference = first.temperature - second.temperature
         temp = str(first.temperature) + '°'
         if -1 < difference < 1:
@@ -79,10 +79,10 @@ class Game:
             return temp, ('Almost', difference)
         return temp, ('False', difference)
 
-    def _coord_diff(self, first: Country, second: Country) -> tuple:
+    def _coord_diff(self, first: Country, second: Country) -> tuple[int, int]:
         return first.location[0] - second.location[0], first.location[1] - second.location[1]
 
-    def _direction(self, coordinates: tuple) -> tuple:
+    def _direction(self, coordinates: tuple[int, int]) -> tuple[str, str]:
         s: str = ''
         s = s + 'S' if 1.5 < coordinates[0] else s if -1.5 <= coordinates[0] <= 1.5 else s + 'N'
         s = s + 'W' if 1.5 < coordinates[1] else s if -1.5 <= coordinates[1] <= 1.5 else s + 'E'
@@ -117,14 +117,11 @@ def formatting_population(name: int) -> str:
     n: int = len(num_str)
     match n:
         case 4 | 5 | 6:
-            formatted_num: str = f'{num_str[:n-3]}.{num_str[n-3]}K'
-            return formatted_num
+            return f'{num_str[:n-3]}.{num_str[n-3]}K'
         case 7 | 8 | 9:
-            formatted_num: str = f'{num_str[:n - 6]}.{num_str[n - 6]}M'
-            return formatted_num
+            return f'{num_str[:n - 6]}.{num_str[n - 6]}M'
         case 10 | 11 | 12:
-            formatted_num: str = f'{num_str[:n - 9]}.{num_str[n - 9]}B'
-            return formatted_num
+            return f'{num_str[:n - 9]}.{num_str[n - 9]}B'
         case _:
             return num_str
 
@@ -138,5 +135,5 @@ class ResultsTable:
         return f'{round(len(self.file_load["Counties"]) / 185 * 100, 1):.1f}'
 
     def continents(self, key: str) -> str:
-        total_number = {'Asia': 42, 'Australia': 11, 'Africa': 48, 'Europe': 47, 'America': 37}
+        total_number: dict[str, int] = {'Asia': 42, 'Australia': 11, 'Africa': 48, 'Europe': 47, 'America': 37}
         return f'{round(self.file_load[key] / total_number[key] * 100, 1):.1f}'
