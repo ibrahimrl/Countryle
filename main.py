@@ -133,7 +133,7 @@ class View(Canvas):
             self.game_update(e)
 
 
-def image_resizer(img, x=50, y=50) -> ImageTk:
+def image_resizer(img, x=50, y=50) -> PhotoImage:
     given_img = (Image.open(img))
     resized_img = given_img.resize((x, y), Image.Resampling.LANCZOS)
     return ImageTk.PhotoImage(resized_img)
@@ -143,7 +143,7 @@ def formatting_input(name) -> str:
     return ' '.join(map(lambda x: x[0].upper() + x[1:].lower(), name.split(' ')))
 
 
-def country_name() -> str:
+def country_name():
     name: str = canvas.entry.get()
     if len(name) > 0:
         entered_country(formatting_input(name))
@@ -160,7 +160,6 @@ def entered_country(name):
         if current_country.name == NewGame.Target.name:
             NewGame.win_results(current_country)
             NewGame.end_game()
-            # canvas.map(current_country)
     if NewGame.attempts == 0:
         resign()
 

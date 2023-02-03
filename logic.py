@@ -21,7 +21,7 @@ class Game:
         self.is_finished: bool = False
         self.attempts: int = 6
         self.guessed_countries: set[str] = set()
-        self.data_guessed_countries: list[tuple[Any]] = []
+        self.data_guessed_countries: list[tuple[Any, Any]] = []
         with open('Data/Information.json') as file:
             self._data: dict[str, Any] = load(file)
         self.Target: Country = self._random_country()
@@ -37,6 +37,7 @@ class Game:
     def new_country(self, name) -> Country | None:
         if self.list_checker(name):
             return self.entered_country_data(name)
+        return None
 
     def list_checker(self, name) -> bool:
         if self._data.get(name):
@@ -47,11 +48,12 @@ class Game:
         if not self.already_guessed(name):
             self.guessed_countries.add(name)
             return Country(name, self._data[name])
+        return None
 
     def already_guessed(self, name: str) -> bool:
         return name in self.guessed_countries
 
-    def _name(self, country: Country) -> str:
+    def _name(self, country: Country) -> tuple:
         return str(TOTAL_ATTEMPTS - self.attempts), country.name
 
     def _hemisphere_check(self, first: Country, second: Country) -> tuple:
@@ -80,7 +82,7 @@ class Game:
     def _coord_diff(self, first: Country, second: Country) -> tuple:
         return first.location[0] - second.location[0], first.location[1] - second.location[1]
 
-    def _direction(self, coordinates: tuple) -> str:
+    def _direction(self, coordinates: tuple) -> tuple:
         s: str = ''
         s = s + 'S' if 1.5 < coordinates[0] else s if -1.5 <= coordinates[0] <= 1.5 else s + 'N'
         s = s + 'W' if 1.5 < coordinates[1] else s if -1.5 <= coordinates[1] <= 1.5 else s + 'E'
@@ -102,12 +104,13 @@ class Game:
                self._direction(self._coord_diff(first, second))
         self.data_guessed_countries.append(data)
 
-    def end_game(self) -> str:
+    def end_game(self) -> str | None:
         if not self.is_finished:
             self.is_finished = True
             with open('Data/Results.json', 'w') as file:
                 dump(self.file_load, file)
             return self.Target.name
+        return None
 
 
 class ResultsTable:
