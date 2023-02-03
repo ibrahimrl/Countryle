@@ -34,17 +34,17 @@ class Game:
         name: str = choice(self.data_names)
         return Country(name, self._data[name])
 
-    def new_country(self, name) -> Country | None:
+    def new_country(self, name: str) -> Country | None:
         if self.list_checker(name):
             return self.entered_country_data(name)
         return None
 
-    def list_checker(self, name) -> bool:
+    def list_checker(self, name: str) -> bool:
         if self._data.get(name):
             return True
         return False
 
-    def entered_country_data(self, name) -> Country | None:
+    def entered_country_data(self, name: str) -> Country | None:
         if not self.already_guessed(name):
             self.guessed_countries.add(name)
             return Country(name, self._data[name])
@@ -68,7 +68,7 @@ class Game:
             return str(first.population), ('True', difference)
         if -1500_000 < difference < 1500_000:
             return str(first.population), ('Almost', difference)
-        return str(first.population), ('False', difference)
+        return formatting_population(first.population), ('False', difference)
 
     def _temperature_check(self, first: Country, second: Country) -> tuple:
         difference = first.temperature - second.temperature
@@ -111,6 +111,22 @@ class Game:
                 dump(self.file_load, file)
             return self.Target.name
         return None
+
+def formatting_population(name: int) -> str:
+    num_str: str = str(name)
+    n: int = len(num_str)
+    match n:
+        case 4 | 5 | 6:
+            formatted_num: str = f'{num_str[:n-3]}.{num_str[n-3]}K'
+            return formatted_num
+        case 7 | 8 | 9:
+            formatted_num: str = f'{num_str[:n - 6]}.{num_str[n - 6]}M'
+            return formatted_num
+        case 10 | 11 | 12:
+            formatted_num: str = f'{num_str[:n - 9]}.{num_str[n - 9]}B'
+            return formatted_num
+        case _:
+            return num_str
 
 
 class ResultsTable:
