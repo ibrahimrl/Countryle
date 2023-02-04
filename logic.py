@@ -16,6 +16,7 @@ class Country:
     def hemisphere(self) -> str:
         return 'NORTHERN' if self.location[0] >= 0 else 'SOUTHERN'
 
+
 class Game:
     def __init__(self):
         self.is_finished: bool = False
@@ -131,9 +132,18 @@ class ResultsTable:
         with open('Data/Results.json') as file:
             self.file_load = load(file)
 
+    def game_number(self) -> int:
+        return self.file_load["NumberOfGames"]
+
+    def win_number(self) -> int:
+        return self.file_load["Wins"]
+
     def discovered(self) -> str:
         return f'{round(len(self.file_load["Counties"]) / 185 * 100, 1):.1f}'
 
-    def continents(self, key: str) -> str:
+    def continents(self) -> dict[str, str]:
+        results: dict[str, str] = {}
         total_number: dict[str, int] = {'Asia': 42, 'Australia': 11, 'Africa': 48, 'Europe': 47, 'America': 37}
-        return f'{round(self.file_load[key] / total_number[key] * 100, 1):.1f}'
+        for c in ['Asia', 'Australia', 'Africa', 'Europe', 'America']:
+            results[c] = f'{round(self.file_load[c] / total_number[c] * 100, 1):.1f}%'
+        return results
