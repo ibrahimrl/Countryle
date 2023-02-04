@@ -64,21 +64,21 @@ class Game:
         return first.continent.upper(), first.continent == second.continent
 
     def _population_check(self, first: Country, second: Country) -> tuple[str, tuple[str, int]]:
-        difference = first.population - second.population
-        if -500_000 < difference < 500_000:
-            return str(first.population), ('True', difference)
-        if -1500_000 < difference < 1500_000:
-            return str(first.population), ('Almost', difference)
-        return formatting_population(first.population), ('False', difference)
+        return formatting_population(first.population), self._check_difference(first.population, second.population,
+                                                                               500_000, 1_500_000)
 
     def _temperature_check(self, first: Country, second: Country) -> tuple[str, tuple[str, int]]:
-        difference = first.temperature - second.temperature
-        temp = str(first.temperature) + '°'
-        if -1 < difference < 1:
-            return temp, ('True', difference)
-        if -2 < difference < 2:
-            return temp, ('Almost', difference)
-        return temp, ('False', difference)
+        return str(first.temperature) + '°', self._check_difference(first.temperature, second.temperature, 1, 2)
+
+    def _check_difference(self, first, second, close, almost) -> tuple[str, int]:
+        difference = abs(first - second)
+        status = 'False'
+
+        if difference < close:
+            status = 'True'
+        elif difference < almost:
+            status = 'Almost'
+        return status, difference
 
     def _coord_diff(self, first: Country, second: Country) -> tuple[int, int]:
         return first.location[0] - second.location[0], first.location[1] - second.location[1]
@@ -144,6 +144,6 @@ class ResultsTable:
     def continents(self) -> dict[str, str]:
         results: dict[str, str] = {}
         total_number: dict[str, int] = {'Asia': 42, 'Australia': 11, 'Africa': 48, 'Europe': 47, 'America': 37}
-        for c in ['Asia', 'Australia', 'Africa', 'Europe', 'America']:
+        for c in total_number.keys():
             results[c] = f'{round(self.file_load[c] / total_number[c] * 100, 1):.1f}%'
         return results
