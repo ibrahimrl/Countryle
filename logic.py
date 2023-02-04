@@ -57,11 +57,11 @@ class Game:
     def _name(self, country: Country) -> tuple[str, str]:
         return str(TOTAL_ATTEMPTS - self.attempts), country.name
 
-    def _hemisphere_check(self, first: Country, second: Country) -> tuple[str, bool]:
-        return first.hemisphere, first.hemisphere == second.hemisphere
+    def _hemisphere_check(self, first: Country, second: Country) -> tuple[str, str]:
+        return first.hemisphere, str(first.hemisphere == second.hemisphere)
 
-    def _continent_check(self, first: Country, second: Country) -> tuple[str, bool]:
-        return first.continent.upper(), first.continent == second.continent
+    def _continent_check(self, first: Country, second: Country) -> tuple[str, str]:
+        return first.continent.upper(), str(first.continent == second.continent)
 
     def _population_check(self, first: Country, second: Country) -> tuple[str, tuple[str, int]]:
         return formatting_population(first.population), self._check_difference(first.population, second.population,
@@ -70,9 +70,9 @@ class Game:
     def _temperature_check(self, first: Country, second: Country) -> tuple[str, tuple[str, int]]:
         return str(first.temperature) + '°', self._check_difference(first.temperature, second.temperature, 1, 2)
 
-    def _check_difference(self, first, second, close, almost) -> tuple[str, int]:
-        difference = abs(first - second)
-        status = 'False'
+    def _check_difference(self, first: int, second: int, close: int, almost) -> tuple[str, int]:
+        difference: int = abs(first - second)
+        status: str = 'False'
 
         if difference < close:
             status = 'True'

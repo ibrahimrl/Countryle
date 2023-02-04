@@ -1,4 +1,3 @@
-import time
 from logic import *
 from tkinter import *
 from PIL import Image, ImageTk
@@ -61,6 +60,7 @@ class View(Canvas):
     def results_page(self, games: int, wins: int, discovered: str, continents: dict[str, str]):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
+
         self.top_view()
 
         self.text(525, 100, 'Statistics', 25, 'Black')
@@ -78,7 +78,7 @@ class View(Canvas):
         cordinates: dict[str, tuple[int, int]] = {'Asia': (608, 275), 'Australia': (658, 385), 'Africa': (530, 335),
                                                   'Europe': (530, 275), 'America': (415, 330)}
 
-        for c in ['Asia', 'Australia', 'Africa', 'Europe', 'America']:
+        for c in cordinates.keys():
             x, y = cordinates[c]
             self.text(x, y, c, 15, 'Black')
             self.text(x, y + HORIZONTAL_RESULTS_MARGIN, continents[c], 15, 'Black')
@@ -141,12 +141,12 @@ class View(Canvas):
         x, y = Current_Point
         for c, d in game_status:
             if isinstance(d, tuple):
-                self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[str(d[0])])
+                self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[d[0]])
                 if d[1] != 0:
                     img, image_coordinate = self.comparing_temperatures(d[1])
                     self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2 + image_coordinate, image=img)
             else:
-                self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[str(d)])
+                self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[d])
             if c == 'Target is found':
                 self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2, image=self.image_found, anchor=CENTER)
             else:
