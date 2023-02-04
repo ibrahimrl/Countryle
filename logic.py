@@ -139,7 +139,7 @@ class ResultsTable:
         return self.file_load["Wins"]
 
     def discovered(self) -> str:
-        return f'{round(len(self.file_load["Counties"]) / 185 * 100, 1):.1f}'
+        return f'{round(len(self.file_load["Counties"]) / 185 * 100, 1):.1f}%'
 
     def continents(self) -> dict[str, str]:
         results: dict[str, str] = {}

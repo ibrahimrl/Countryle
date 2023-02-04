@@ -58,7 +58,7 @@ class View(Canvas):
         self.button_results.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(690, 30, window=self.button_results)
 
-    def results_page(self, games: str, wins: str, discovered: str, continents: dict[str, str]):
+    def results_page(self, games: int, wins: int, discovered: str, continents: dict[str, str]):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
         self.top_view()
