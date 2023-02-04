@@ -83,7 +83,7 @@ class View(Canvas):
             self.text(x, y, c, 15, 'Black')
             self.text(x, y + HORIZONTAL_RESULTS_MARGIN, continents[c], 15, 'Black')
 
-        self.finish_images()
+        self.restart()
 
 
     def images(self):
@@ -120,7 +120,7 @@ class View(Canvas):
         self.image_restart = image_resizer('Img/restart.png')
 
 
-    def finish_images(self):
+    def restart(self):
         self.button_restart = Button(self, image=self.image_restart, command=restart_game, activebackground='White', bd=0)
         self.button_restart.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(800, 590, window=self.button_restart)
@@ -143,7 +143,7 @@ class View(Canvas):
             if isinstance(d, tuple):
                 self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[str(d[0])])
                 if d[1] != 0:
-                    img, image_coordinate = self.higher_lower(d[1])
+                    img, image_coordinate = self.comparing_temperatures(d[1])
                     self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2 + image_coordinate, image=img)
             else:
                 self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[str(d)])
@@ -158,7 +158,7 @@ class View(Canvas):
     def text(self, x: int, y: int, text: str, size: int, color: str, anc=CENTER, **args):
         self.create_text(x, y, text=text, font=('Helvetica', size), fill=color, anchor=anc, **args)
 
-    def higher_lower(self, num: int) -> tuple:
+    def comparing_temperatures(self, num: int) -> tuple:
         return (self.image_higher, -20) if num < 0 else (self.image_lower, 20)
 
     def redraw_board(self):
@@ -207,6 +207,7 @@ def entered_country(name: str):
         if current_country.name == NewGame.Target.name:
             NewGame.win_results(current_country)
             NewGame.end_game()
+            canvas.restart()
     if NewGame.attempts == 0:
         resign()
 
@@ -220,6 +221,7 @@ def compare_countries(country: Country):
 def resign():
     compare_countries(NewGame.Target)
     NewGame.end_game()
+    canvas.restart()
 
 
 def results():
