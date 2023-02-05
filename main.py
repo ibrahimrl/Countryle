@@ -54,11 +54,14 @@ class View(Canvas):
         self.button_results.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(690, 30, window=self.button_results)
 
+        if NewGame.is_finished:
+            self.restart()
+
     def results_page(self, games: int, wins: int, discovered: str, continents: dict[str, str]):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
 
-        self.button_mainpage = Button(self, text='GO BACK TO THE GAME',command=main_page, activebackground='White', bd=0)
+        self.button_mainpage = Button(self, text='GO BACK TO THE GAME', command=main_page, activebackground='White', bd=0)
         self.button_mainpage.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(525, 30, window=self.button_mainpage)
 
@@ -84,7 +87,6 @@ class View(Canvas):
             x, y = cordinates[c]
             self.text(x, y, c, 15, 'Black')
             self.text(x, y + HORIZONTAL_RESULTS_MARGIN, continents[c], 15, 'Black')
-
 
     def images(self):
         self.image_map = PhotoImage(file='Img/map.png')
@@ -118,7 +120,6 @@ class View(Canvas):
         self.image_win = image_resizer('Img/win.png', 25, 25)
         self.image_results = image_resizer('Img/results.png', 35, 35)
         self.image_restart = image_resizer('Img/restart.png')
-
 
     def restart(self):
         self.button_restart = Button(self, image=self.image_restart, command=restart_game, activebackground='White', bd=0)
@@ -179,8 +180,8 @@ def set_game():
 
 def restart_game():
     canvas.delete('all')
-    canvas.main_page()
     set_game()
+    canvas.main_page()
 
 def main_page():
     canvas.delete('all')
