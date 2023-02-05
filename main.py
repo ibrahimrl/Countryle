@@ -55,13 +55,13 @@ class View(Canvas):
         self.create_window(690, 30, window=self.button_results)
 
         if NewGame.is_finished:
-            self.restart()
+            self.restart_button_appear()
 
     def results_page(self, games: int, wins: int, discovered: str, continents: dict[str, str]):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
 
-        self.button_mainpage = Button(self, text='GO BACK TO THE GAME', command=main_page, activebackground='White', bd=0)
+        self.button_mainpage = Button(self, text='GO BACK TO THE GAME', command=back_to_main_page, activebackground='White', bd=0)
         self.button_mainpage.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(525, 30, window=self.button_mainpage)
 
@@ -121,7 +121,7 @@ class View(Canvas):
         self.image_results = image_resizer('Img/results.png', 35, 35)
         self.image_restart = image_resizer('Img/restart.png')
 
-    def restart(self):
+    def restart_button_appear(self):
         self.button_restart = Button(self, image=self.image_restart, command=restart_game, activebackground='White', bd=0)
         self.button_restart.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(800, 590, window=self.button_restart)
@@ -183,7 +183,7 @@ def restart_game():
     set_game()
     canvas.main_page()
 
-def main_page():
+def back_to_main_page():
     canvas.delete('all')
     canvas.redraw_board()
 
@@ -212,7 +212,7 @@ def entered_country(name: str):
         if current_country.name == NewGame.Target.name:
             NewGame.win_results(current_country)
             NewGame.end_game()
-            canvas.restart()
+            canvas.restart_button_appear()
     if NewGame.attempts == 0:
         resign()
 
@@ -226,7 +226,7 @@ def compare_countries(country: Country):
 def resign():
     compare_countries(NewGame.Target)
     NewGame.end_game()
-    canvas.restart()
+    canvas.restart_button_appear()
 
 
 def results():
