@@ -54,9 +54,6 @@ class View(Canvas):
         self.button_results.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(690, 30, window=self.button_results)
 
-        if NewGame.is_finished:
-            self.restart_button_appear()
-
     def results_page(self, games: int, wins: int, discovered: str, continents: dict[str, str]):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
@@ -66,7 +63,6 @@ class View(Canvas):
         self.create_window(525, 30, window=self.button_mainpage)
 
         self.create_line(325, 65, 725, 65, width=1, fill='Black')
-
 
         self.text(525, 100, 'Statistics', 25, 'Black')
 
@@ -186,6 +182,8 @@ def restart_game():
 def back_to_main_page():
     canvas.delete('all')
     canvas.redraw_board()
+    if NewGame.is_finished:
+        canvas.restart_button_appear()
 
 
 def image_resizer(img: str, x: int = 50, y: int = 50) -> PhotoImage:
@@ -213,8 +211,8 @@ def entered_country(name: str):
             NewGame.win_results(current_country)
             NewGame.end_game()
             canvas.restart_button_appear()
-    if NewGame.attempts == 0:
-        resign()
+        if NewGame.attempts == 0:
+            resign()
 
 
 def compare_countries(country: Country):

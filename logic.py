@@ -4,6 +4,7 @@ from typing import Any
 
 TOTAL_ATTEMPTS: int = 6
 
+
 class Country:
     def __init__(self, name: str, info: dict[str, Any]):
         self.name: str = name
@@ -112,6 +113,7 @@ class Game:
                 dump(self.file_load, file)
             return self.Target.name
         return None
+
 
 def formatting_population(name: int) -> str:
     num_str: str = str(name)
