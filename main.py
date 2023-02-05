@@ -26,12 +26,9 @@ class View(Canvas):
         self.parent: Tk = parent
         self.main_page()
 
-    def top_view(self):
+    def main_page(self):
         self.text(525, 30, 'COUNTRYLE', 25, 'Black')
         self.create_line(325, 65, 725, 65, width=1, fill='Black')
-
-    def main_page(self):
-        self.top_view()
 
         self.create_line(325, 540, 725, 540, width=1, fill='Black')
         self.create_line(400, 602, 650, 602, width=1, fill='Black')
@@ -61,7 +58,12 @@ class View(Canvas):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
 
-        self.top_view()
+        self.button_mainpage = Button(self, text='GO BACK TO THE GAME',command=main_page, activebackground='White', bd=0)
+        self.button_mainpage.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.create_window(525, 30, window=self.button_mainpage)
+
+        self.create_line(325, 65, 725, 65, width=1, fill='Black')
+
 
         self.text(525, 100, 'Statistics', 25, 'Black')
 
@@ -82,8 +84,6 @@ class View(Canvas):
             x, y = cordinates[c]
             self.text(x, y, c, 15, 'Black')
             self.text(x, y + HORIZONTAL_RESULTS_MARGIN, continents[c], 15, 'Black')
-
-        self.restart()
 
 
     def images(self):
@@ -181,6 +181,10 @@ def restart_game():
     canvas.delete('all')
     canvas.main_page()
     set_game()
+
+def main_page():
+    canvas.delete('all')
+    canvas.redraw_board()
 
 
 def image_resizer(img: str, x: int = 50, y: int = 50) -> PhotoImage:
