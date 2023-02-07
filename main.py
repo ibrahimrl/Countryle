@@ -140,7 +140,7 @@ class View(Canvas):
             if isinstance(d, tuple):
                 self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[d[0]])
                 if d[1] != 0:
-                    img, image_coordinate = self.comparing_temperatures(d[1])
+                    img, image_coordinate = self.compare_nums(d[1])
                     self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2 + image_coordinate, image=img)
             else:
                 self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[d])
@@ -155,7 +155,7 @@ class View(Canvas):
     def text(self, x: int, y: int, text: str, size: int, color: str, anc=CENTER, **args):
         self.create_text(x, y, text=text, font=('Helvetica', size), fill=color, anchor=anc, **args)
 
-    def comparing_temperatures(self, num: int) -> tuple:
+    def compare_nums(self, num: int) -> tuple:
         return (self.image_higher, -20) if num < 0 else (self.image_lower, 20)
 
     def redraw_board(self):

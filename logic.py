@@ -72,12 +72,12 @@ class Game:
         return str(first.temperature) + '°', self._check_difference(first.temperature, second.temperature, 1, 2)
 
     def _check_difference(self, first: int, second: int, close: int, almost) -> tuple[str, int]:
-        difference: int = abs(first - second)
+        difference: int = first - second
         status: str = 'False'
 
-        if difference < close:
+        if abs(difference) < close:
             status = 'True'
-        elif difference < almost:
+        elif abs(difference) < almost:
             status = 'Almost'
         return status, difference
 
