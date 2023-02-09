@@ -35,8 +35,8 @@ class View(Canvas):
 
         self.entry = Entry(self.parent, width=20, fg='Black', bg='#fafafa', bd=0, justify=CENTER)
         self.entry.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
-
         self.create_window(525, 590, window=self.entry, anchor=CENTER)
+        self.entry.bind('<Return>', return_button)
 
         self.images()
 
@@ -196,6 +196,10 @@ def formatting_input(name: str) -> str:
     return ' '.join(map(lambda x: x[0].upper() + x[1:].lower(), name.split(' ')))
 
 
+def return_button(event: Event):
+    country_name()
+
+
 def country_name():
     name: str = canvas.entry.get()
     if len(name) > 0:
@@ -238,4 +242,5 @@ set_game()
 root: Tk = Tk()
 root.title('Countryle')
 canvas = View(root)
+canvas.pack(fill="both", expand=True)
 root.mainloop()
