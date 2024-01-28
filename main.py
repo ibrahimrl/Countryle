@@ -21,7 +21,8 @@ COLOR: dict[str, str] = {
 
 class View(Canvas):
     def __init__(self, parent: Tk):
-        super().__init__(parent, width=1050, height=650, background=COLOR['Background'])
+        super().__init__(parent, width=1050, height=650,
+                         background=COLOR['Background'])
         self.grid()
         self.parent: Tk = parent
         self.main_page()
@@ -33,8 +34,10 @@ class View(Canvas):
         self.create_line(325, 540, 725, 540, width=1, fill='Black')
         self.create_line(400, 602, 650, 602, width=1, fill='Black')
 
-        self.entry = Entry(self.parent, width=20, fg='Black', bg='#fafafa', bd=0, justify=CENTER)
-        self.entry.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.entry = Entry(self.parent, width=20, fg='Black',
+                           bg='#fafafa', bd=0, justify=CENTER)
+        self.entry.config(
+            highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(525, 590, window=self.entry, anchor=CENTER)
         self.entry.bind('<Return>', return_button)
 
@@ -42,24 +45,32 @@ class View(Canvas):
 
         self.create_rectangle(390, 560, 660, 620, width=1, outline='Black')
 
-        self.button_submit = Button(self, image=self.image_submit, command=country_name, activebackground='White', bd=0)
-        self.button_submit.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.button_submit = Button(
+            self, image=self.image_submit, command=country_name, activebackground='White', bd=0)
+        self.button_submit.config(
+            highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(700, 590, window=self.button_submit)
 
-        self.button_resign = Button(self, image=self.image_resign, command=resign, activebackground='White', bd=0)
-        self.button_resign.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.button_resign = Button(
+            self, image=self.image_resign, command=resign, activebackground='White', bd=0)
+        self.button_resign.config(
+            highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(350, 590, window=self.button_resign)
 
-        self.button_results = Button(self, image=self.image_results, command=results, activebackground='White', bd=0)
-        self.button_results.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.button_results = Button(
+            self, image=self.image_results, command=results, activebackground='White', bd=0)
+        self.button_results.config(
+            highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(690, 30, window=self.button_results)
 
     def results_page(self, games: int, wins: int, discovered: str, continents: dict[str, str]):
         self.image_map = PhotoImage(file='Img/map.png')
         self.create_image(525, 325, image=self.image_map, anchor=CENTER)
 
-        self.button_mainpage = Button(self, text='GO BACK TO THE GAME', command=back_to_main_page, activebackground='White', bd=0)
-        self.button_mainpage.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.button_mainpage = Button(
+            self, text='GO BACK TO THE GAME', command=back_to_main_page, activebackground='White', bd=0)
+        self.button_mainpage.config(
+            highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(525, 30, window=self.button_mainpage)
 
         self.create_line(325, 65, 725, 65, width=1, fill='Black')
@@ -82,7 +93,8 @@ class View(Canvas):
         for c in cordinates.keys():
             x, y = cordinates[c]
             self.text(x, y, c, 15, 'Black')
-            self.text(x, y + HORIZONTAL_RESULTS_MARGIN, continents[c], 15, 'Black')
+            self.text(x, y + HORIZONTAL_RESULTS_MARGIN,
+                      continents[c], 15, 'Black')
 
     def images(self):
         self.image_map = PhotoImage(file='Img/map.png')
@@ -118,15 +130,18 @@ class View(Canvas):
         self.image_restart = image_resizer('Img/restart.png')
 
     def restart_button_appear(self):
-        self.button_restart = Button(self, image=self.image_restart, command=restart_game, activebackground='White', bd=0)
-        self.button_restart.config(highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
+        self.button_restart = Button(
+            self, image=self.image_restart, command=restart_game, activebackground='White', bd=0)
+        self.button_restart.config(
+            highlightbackground=COLOR['Background'], highlightcolor=COLOR['Background'])
         self.create_window(800, 590, window=self.button_restart)
 
     def game_update(self, game_status: tuple):
         global Current_Point
         x, y = Current_Point
         if game_status[0][1] == NewGame.Target.name:
-            self.create_image(x - 5, y - 5, image=self.image_win, anchor=CENTER)
+            self.create_image(
+                x - 5, y - 5, image=self.image_win, anchor=CENTER)
             self.text(x + 10, y, NewGame.Target.name, 20, 'Black', W)
         else:
             self.text(x - 10, y, '. '.join(game_status[0]), 20, 'Black', W)
@@ -138,22 +153,28 @@ class View(Canvas):
         x, y = Current_Point
         for c, d in game_status:
             if isinstance(d, tuple):
-                self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[d[0]])
+                self.create_oval(x, y, x + CIRCLE_SIZE, y +
+                                 CIRCLE_SIZE, width=0, fill=COLOR[d[0]])
                 if d[1] != 0:
                     img, image_coordinate = self.compare_nums(d[1])
-                    self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2 + image_coordinate, image=img)
+                    self.create_image(
+                        x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2 + image_coordinate, image=img)
             else:
-                self.create_oval(x, y, x + CIRCLE_SIZE, y + CIRCLE_SIZE, width=0, fill=COLOR[d])
+                self.create_oval(x, y, x + CIRCLE_SIZE, y +
+                                 CIRCLE_SIZE, width=0, fill=COLOR[d])
             if c == 'Target is found':
-                self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2, image=self.image_found, anchor=CENTER)
+                self.create_image(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE //
+                                  2, image=self.image_found, anchor=CENTER)
             else:
-                self.text(x + CIRCLE_SIZE // 2, y + CIRCLE_SIZE // 2, str(c), 10, 'White')
+                self.text(x + CIRCLE_SIZE // 2, y +
+                          CIRCLE_SIZE // 2, str(c), 10, 'White')
             x += CIRCLE_SIZE + HORIZONTAL_TEXT_MARGIN
         y += CIRCLE_SIZE + VERTICAL_CIRCLE_MARGIN
         Current_Point = (335, y)
 
     def text(self, x: int, y: int, text: str, size: int, color: str, anc=CENTER, **args):
-        self.create_text(x, y, text=text, font=('Helvetica', size), fill=color, anchor=anc, **args)
+        self.create_text(x, y, text=text, font=(
+            'Helvetica', size), fill=color, anchor=anc, **args)
 
     def compare_nums(self, num: int) -> tuple:
         return (self.image_higher, -20) if num < 0 else (self.image_lower, 20)
@@ -178,6 +199,7 @@ def restart_game():
     canvas.delete('all')
     set_game()
     canvas.main_page()
+
 
 def back_to_main_page():
     canvas.delete('all')
@@ -234,13 +256,15 @@ def resign():
 def results():
     res = ResultsTable()
     canvas.delete('all')
-    canvas.results_page(res.game_number(), res.win_number(), res.discovered(), res.continents())
+    canvas.results_page(res.game_number(), res.win_number(),
+                        res.discovered(), res.continents())
 
 
-set_game()
+if __name__ == "__main__":
+    set_game()
 
-root: Tk = Tk()
-root.title('Countryle')
-canvas = View(root)
-canvas.pack(fill="both", expand=True)
-root.mainloop()
+    root: Tk = Tk()
+    root.title('Countryle')
+    canvas = View(root)
+    canvas.pack(fill="both", expand=True)
+    root.mainloop()
