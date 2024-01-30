@@ -58,7 +58,7 @@ Make sure to run these commands in your terminal before starting the game to ens
   ```
  #### 2. Navigate to the project directory:
   ```bash
-  cd countryle
+  cd Countryle
   ```
  #### 3. Run the game:
   ```bash
